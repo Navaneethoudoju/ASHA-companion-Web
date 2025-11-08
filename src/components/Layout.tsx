@@ -5,7 +5,7 @@ import { Home, Users, Baby, Heart, Pill, FileText, BarChart3, Settings, LogOut, 
 
 interface LayoutProps {
   children: ReactNode;
-  role: "ASHA" | "ANM" | "ADMIN";
+  role: "ASHA" | "ANM" | "PHC" | "ADMIN";
 }
 
 const Layout = ({ children, role }: LayoutProps) => {
@@ -24,7 +24,12 @@ const Layout = ({ children, role }: LayoutProps) => {
   const anmMenuItems = [
     { to: "/anm/dashboard", icon: Home, label: "Dashboard" },
     { to: "/anm/asha-workers", icon: Users, label: "ASHA Workers" },
-    { to: "/anm/reports", icon: FileText, label: "Reports" },
+    { to: "/anm/analytics", icon: BarChart3, label: "Analytics" }
+  ];
+
+  const phcMenuItems = [
+    { to: "/phc/dashboard", icon: Home, label: "Dashboard" },
+    { to: "/anm/asha-workers", icon: Users, label: "All ASHAs" },
     { to: "/anm/analytics", icon: BarChart3, label: "Analytics" }
   ];
 
@@ -35,18 +40,32 @@ const Layout = ({ children, role }: LayoutProps) => {
     { to: "/admin/settings", icon: Settings, label: "Settings" }
   ];
 
-  const menuItems = role === "ASHA" ? ashaMenuItems : role === "ANM" ? anmMenuItems : adminMenuItems;
+  const menuItems = 
+    role === "ASHA" ? ashaMenuItems : 
+    role === "ANM" ? anmMenuItems : 
+    role === "PHC" ? phcMenuItems : 
+    adminMenuItems;
 
   const handleLogout = () => {
     navigate("/login");
   };
 
+  const getRoleName = () => {
+    switch (role) {
+      case "ASHA": return "ASHA Worker";
+      case "ANM": return "ANM Supervisor";
+      case "PHC": return "PHC Staff";
+      case "ADMIN": return "Administrator";
+      default: return role;
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="w-64 border-r bg-card">
+      <aside className="w-64 border-r bg-card shadow-sm">
         <div className="p-6 border-b">
           <h1 className="text-xl font-bold text-primary">ASHA Companion</h1>
-          <p className="text-sm text-muted-foreground mt-1">{role} Portal</p>
+          <p className="text-sm text-muted-foreground mt-1">{getRoleName()}</p>
         </div>
         <nav className="p-4 space-y-2">
           {menuItems.map((item) => {

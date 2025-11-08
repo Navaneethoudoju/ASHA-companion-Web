@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 
 // ASHA Routes
 import ASHADashboard from "./pages/asha/Dashboard";
+import AddPatient from "./pages/asha/AddPatient";
 import Households from "./pages/asha/Households";
 import Pregnancy from "./pages/asha/Pregnancy";
 import ChildHealth from "./pages/asha/ChildHealth";
@@ -19,6 +20,9 @@ import ANMDashboard from "./pages/anm/Dashboard";
 import ASHAWorkers from "./pages/anm/ASHAWorkers";
 import ReportsReview from "./pages/anm/ReportsReview";
 import Analytics from "./pages/anm/Analytics";
+
+// PHC Routes
+import PHCDashboard from "./pages/phc/Dashboard";
 
 // Admin Routes
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -40,6 +44,7 @@ const App = () => (
           
           {/* ASHA Routes */}
           <Route path="/asha/dashboard" element={<ASHADashboard />} />
+          <Route path="/asha/add-patient" element={<AddPatient />} />
           <Route path="/asha/households" element={<Households />} />
           <Route path="/asha/pregnancy" element={<Pregnancy />} />
           <Route path="/asha/child-health" element={<ChildHealth />} />
@@ -51,6 +56,9 @@ const App = () => (
           <Route path="/anm/asha-workers" element={<ASHAWorkers />} />
           <Route path="/anm/reports" element={<ReportsReview />} />
           <Route path="/anm/analytics" element={<Analytics />} />
+          
+          {/* PHC Routes */}
+          <Route path="/phc/dashboard" element={<PHCDashboard />} />
           
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />

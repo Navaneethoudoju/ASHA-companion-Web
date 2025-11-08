@@ -4,8 +4,16 @@ export const mockUser = {
   role: "ASHA" as const,
   phone: "9876543210",
   email: "sita@asha.com",
+  password: "asha123",
   villageId: 1
 };
+
+export const mockAllUsers = [
+  { id: 1, name: "Sita Devi", role: "ASHA" as const, phone: "9876543210", email: "sita@asha.com", password: "asha123", villageId: 1 },
+  { id: 2, name: "Rekha Kumari", role: "ANM" as const, phone: "9123456789", email: "rekha@phc.com", password: "anm123", villageId: 1 },
+  { id: 3, name: "Dr. Amit Kumar", role: "PHC" as const, phone: "9111222333", email: "amit@phc.com", password: "phc123", villageId: null },
+  { id: 4, name: "Admin User", role: "ADMIN" as const, phone: "9999999999", email: "admin@system.com", password: "admin123", villageId: null }
+];
 
 export const mockVillages = [
   { id: 1, name: "Rampur", block: "Sadar", district: "Patna" },
@@ -47,5 +55,6 @@ export const mockASHAWorkers = [
 export const mockUsers = [
   { id: 1, name: "Sita Devi", role: "ASHA", phone: "9876543210", email: "sita@asha.com", village: "Rampur" },
   { id: 2, name: "Rekha Kumari", role: "ANM", phone: "9123456789", email: "rekha@phc.com", village: "Shyampur" },
-  { id: 3, name: "Admin User", role: "ADMIN", phone: "9999999999", email: "admin@system.com", village: "-" }
+  { id: 3, name: "Dr. Amit Kumar", role: "PHC", phone: "9111222333", email: "amit@phc.com", village: "-" },
+  { id: 4, name: "Admin User", role: "ADMIN", phone: "9999999999", email: "admin@system.com", village: "-" }
 ];

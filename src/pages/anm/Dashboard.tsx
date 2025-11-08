@@ -60,27 +60,66 @@ const ANMDashboard = () => {
           </Card>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>ASHA Workers Performance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {mockASHAWorkers.map((asha) => (
-                <div key={asha.id} className="flex items-center justify-between border-b pb-4 last:border-0">
-                  <div>
-                    <p className="font-medium">{asha.name}</p>
-                    <p className="text-sm text-muted-foreground">Village: {asha.village} • Phone: {asha.phone}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>ASHA Workers Overview</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {mockASHAWorkers.map((asha) => (
+                  <div key={asha.id} className="flex items-center justify-between border-b pb-4 last:border-0">
+                    <div>
+                      <p className="font-medium">{asha.name}</p>
+                      <p className="text-sm text-muted-foreground">Village: {asha.village} • Phone: {asha.phone}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium">{asha.totalHouseholds} Households</p>
+                      <p className="text-sm text-muted-foreground">{asha.pendingVisits} pending visits</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-medium">{asha.totalHouseholds} Households</p>
-                    <p className="text-sm text-muted-foreground">{asha.pendingVisits} pending visits</p>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Health Coverage Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="border-b pb-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm">Maternal Health Coverage</span>
+                    <span className="text-sm font-medium">92%</span>
+                  </div>
+                  <div className="w-full bg-secondary rounded-full h-2">
+                    <div className="bg-pink-500 h-2 rounded-full" style={{ width: '92%' }}></div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                <div className="border-b pb-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm">Immunization Coverage</span>
+                    <span className="text-sm font-medium">85%</span>
+                  </div>
+                  <div className="w-full bg-secondary rounded-full h-2">
+                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+                  </div>
+                </div>
+                <div className="pb-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm">Disease Surveillance</span>
+                    <span className="text-sm font-medium">78%</span>
+                  </div>
+                  <div className="w-full bg-secondary rounded-full h-2">
+                    <div className="bg-green-500 h-2 rounded-full" style={{ width: '78%' }}></div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </Layout>
   );

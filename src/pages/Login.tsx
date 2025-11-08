@@ -9,24 +9,41 @@ import { toast } from "sonner";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [role, setRole] = useState<string>("ASHA");
-  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !password) {
-      toast.error("Please enter email and password");
+    if (!userId || !password) {
+      toast.error("Please enter User ID and password");
       return;
     }
 
-    toast.success(`Logged in as ${role}`);
+    // Mock authentication - in real app, this would check against database
+    const mockUsers = [
+      { id: "ASHA001", password: "asha123", role: "ASHA", name: "Sita Devi" },
+      { id: "ANM001", password: "anm123", role: "ANM", name: "Rekha Kumari" },
+      { id: "PHC001", password: "phc123", role: "PHC", name: "Dr. Amit Kumar" },
+      { id: "ADMIN001", password: "admin123", role: "ADMIN", name: "Admin User" }
+    ];
+
+    const user = mockUsers.find(u => u.id === userId && u.password === password);
+
+    if (!user) {
+      toast.error("Invalid User ID or password");
+      return;
+    }
+
+    toast.success(`Welcome back, ${user.name}!`);
     
-    if (role === "ASHA") {
+    // Route based on user role from database
+    if (user.role === "ASHA") {
       navigate("/asha/dashboard");
-    } else if (role === "ANM") {
+    } else if (user.role === "ANM") {
       navigate("/anm/dashboard");
+    } else if (user.role === "PHC") {
+      navigate("/phc/dashboard");
     } else {
       navigate("/admin/dashboard");
     }
@@ -44,26 +61,13 @@ const Login = () => {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="role">Select Role</Label>
-              <Select value={role} onValueChange={setRole}>
-                <SelectTrigger id="role">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ASHA">ASHA Worker</SelectItem>
-                  <SelectItem value="ANM">ANM / Supervisor</SelectItem>
-                  <SelectItem value="ADMIN">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email / Phone</Label>
+              <Label htmlFor="userId">User ID</Label>
               <Input
-                id="email"
+                id="userId"
                 type="text"
-                placeholder="Enter email or phone"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your User ID"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
               />
             </div>
             <div className="space-y-2">
@@ -80,7 +84,7 @@ const Login = () => {
               Login
             </Button>
             <p className="text-xs text-center text-muted-foreground mt-4">
-              Demo: Use any email/password to login
+              Demo IDs: ASHA001, ANM001, PHC001, ADMIN001 (Password: role123)
             </p>
           </form>
         </CardContent>
