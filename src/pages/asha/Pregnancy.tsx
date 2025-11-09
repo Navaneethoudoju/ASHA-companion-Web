@@ -47,7 +47,8 @@ const Pregnancy = () => {
   const [open, setOpen] = useState(false);
 
   // Personal & Identification
-  const [patientId, setPatientId] = useState<number | "new">("new");
+  const [patientName, setPatientName] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
   const linkedAshaId = useMemo(() => {
     if (typeof window !== "undefined" && sessionStorage.getItem("ashaId")) return Number(sessionStorage.getItem("ashaId"));
     return mockUser?.id;
@@ -108,8 +109,21 @@ const Pregnancy = () => {
     setEdd(formatDate(ed));
   }, [lmp]);
 
+  // compute age (years) from dob relative to registrationDate
+  const ageYears = React.useMemo(() => {
+    if (!dob) return "";
+    const b = new Date(dob);
+    if (isNaN(b.getTime())) return "";
+    const ref = registrationDate ? new Date(registrationDate) : new Date();
+    let age = ref.getFullYear() - b.getFullYear();
+    const m = ref.getMonth() - b.getMonth();
+    if (m < 0 || (m === 0 && ref.getDate() < b.getDate())) age--;
+    return age >= 0 ? String(age) : "";
+  }, [dob, registrationDate]);
+
   const resetForm = () => {
-    setPatientId("new");
+    setPatientName("");
+  setDob("");
     setRegistrationDate(formatDate(new Date()));
     setLmp("");
     setEdd("");
@@ -159,8 +173,10 @@ const Pregnancy = () => {
     const nextId = mockPregnancies.length ? Math.max(...mockPregnancies.map(p => p.id)) + 1 : 1;
     const newPregnancy: any = {
       id: nextId,
-      patientId: patientId === "new" ? null : patientId,
+      patientName, // Use patientName instead of patientId
       ashaId: linkedAshaId,
+      dob: dob || null,
+      age: ageYears === "" ? null : Number(ageYears),
       registrationDate,
       lmp,
       expectedDelivery: edd,
@@ -183,7 +199,7 @@ const Pregnancy = () => {
   ...(recordStatus === "Delivered" ? { pnc: { pnc1, pnc2, pnc3, pncComplications } } : {}),
   // scheme & referral removed
       status: recordStatus,
-      personName: patientId === "new" ? "New Woman" : `Patient ${patientId}`,
+      personName: patientName === "new" ? "New Woman" : `Patient ${patientName}`,
       ancVisits: [anc1, anc2, anc3, anc4].filter(Boolean).length,
   // high risk if complications provided or HB < 11
   riskStatus: (Boolean(complications && complications.trim()) || (hbLevel !== "" && Number(hbLevel) < 11)) ? "High Risk" : "Normal",
@@ -222,28 +238,31 @@ const Pregnancy = () => {
                   <h3 className="font-semibold">Personal & Identification</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-2">
                     <div>
-                      <Label>Patient</Label>
-                      <Select value={String(patientId)} onValueChange={(v) => setPatientId(v === "new" ? "new" : Number(v))}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select patient or New" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="new">New Woman</SelectItem>
-                          {mockPregnancies.map(p => (
-                            <SelectItem key={p.id} value={String(p.id)}>{p.personName}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Label>Patient Name</Label>
+                      <Input
+                        type="text"
+                        value={patientName}
+                        onChange={(e) => setPatientName(e.target.value)}
+                        placeholder="Enter patient name"
+                      />
                     </div>
 
                     <div>
                       <Label>Registration Date</Label>
-                      <Input type="date" value={registrationDate} onChange={(e) => setRegistrationDate(e.target.value)} />
+                      <Input
+                        type="date"
+                        value={registrationDate}
+                        onChange={(e) => setRegistrationDate(e.target.value)}
+                      />
                     </div>
 
                     <div>
-                      <Label>ASHA ID</Label>
-                      <Input value={String(linkedAshaId ?? "")} readOnly />
+                      <Label>Date of Birth</Label>
+                      <Input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
+                      <div className="mt-2">
+                        <Label>Age (years)</Label>
+                        <Input readOnly value={ageYears} />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -272,8 +291,12 @@ const Pregnancy = () => {
                   <h3 className="font-semibold">Antenatal Checkups</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-2">
                     <div>
-                      <Label>ANC Date</Label>
+                      <Label>ANC 1 Date</Label>
                       <Input type="date" value={anc1} onChange={(e) => setAnc1(e.target.value)} />
+                    </div>
+                    <div>
+                      <Label>ANC 2 Date</Label>
+                      <Input type="date" value={anc2} onChange={(e) => setAnc2(e.target.value)} />
                     </div>
                     <div>
                       <Label>Hemoglobin (HB)</Label>
