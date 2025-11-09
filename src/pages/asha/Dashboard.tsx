@@ -142,70 +142,7 @@ const ASHADashboard = () => {
             </div>
           </CardContent>
         </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Visits</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {mockVisits.map((visit) => (
-                  <div key={visit.id} className="flex justify-between items-start border-b pb-3 last:border-0">
-                    <div>
-                      <p className="font-medium">{visit.householdName}</p>
-                      <p className="text-sm text-muted-foreground">{visit.purpose}</p>
-                    </div>
-                    <span className="text-xs text-muted-foreground">{visit.visitDate}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Report Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Monthly Progress</span>
-                    <span className="font-medium">8 of 10 visits</span>
-                  </div>
-                  <div className="w-full bg-secondary rounded-full h-2">
-                    <div className="bg-primary h-2 rounded-full" style={{ width: '80%' }}></div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 pt-4">
-                  <div className="border rounded-lg p-3">
-                    <p className="text-2xl font-bold text-pink-600">{mockPregnancies.length}</p>
-                    <p className="text-xs text-muted-foreground">ANC Visits</p>
-                  </div>
-                  <div className="border rounded-lg p-3">
-                    <p className="text-2xl font-bold text-blue-600">{mockChildren.length}</p>
-                    <p className="text-xs text-muted-foreground">Immunizations</p>
-                  </div>
-                  <div className="border rounded-lg p-3">
-                    <p className="text-2xl font-bold text-green-600">{mockVisits.length}</p>
-                    <p className="text-xs text-muted-foreground">Home Visits</p>
-                  </div>
-                  <div className="border rounded-lg p-3">
-                    <p className="text-2xl font-bold text-purple-600">12</p>
-                    <p className="text-xs text-muted-foreground">Awareness Sessions</p>
-                  </div>
-                </div>
-                <Link to="/asha/reports">
-                  <Button className="w-full mt-4">
-                    <FileText className="h-4 w-4 mr-2" />
-                    Generate Monthly Report
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        
 
         <Card>
           <CardHeader>
